@@ -86,6 +86,9 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    //!!!
+    //Wtffffffff ^^^^^^^^
+    //!!
 }
 
 
@@ -195,7 +198,6 @@ class Instruction {
         return db.query("select field(2) from list(1) order by field(1);","field(2)");
     }
 }
-
 //!!!
 //OPAF AF ER DET UKENDT KODE!!!
 //!!
@@ -291,5 +293,7 @@ class Database {
             System.out.println("Error in statement " + sql);
         }
     }
-
+//!!!
+//OPAF AF ER DET UKENDT KODE!!!
+//!!
 }
