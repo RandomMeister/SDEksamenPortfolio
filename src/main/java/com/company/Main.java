@@ -198,46 +198,49 @@ class Model {
 
 
 class MyDB {
-    Connection conn = null;
+
+    //Conn er bare sat til null for at teste?
+    Connection connect = null;
     MyDB() {
-        if(conn == null) open();
+        if(connect == null) open();
     }
 
     public void open() {
         try {
             //String url = "jdbc:sqlite:listdb.db";
             String url = "jdbc:sqlite:tcmdb.db";
-            conn = DriverManager.getConnection(url);
+            connect = DriverManager.getConnection(url);
         } catch (SQLException e) {
             System.out.println("cannot open");
-            if (conn != null) close();
+            if (connect != null) close();
         }
 
         //Vi tjekker lige om den forbinder til vores program, vores TCMDB
         System.out.println("Connected to Database");
+        System.out.println("");
 
     }
 
     public void close() {
         try {
-            if (conn != null) conn.close();
+            if (connect != null) connect.close();
         } catch (SQLException e ) {
             System.out.println("cannot close");
         }
-        conn = null;
+        connect = null;
     }
 
     public void cmd(String sql) {
 
-        if(conn == null)open();
+        if(connect == null)open();
 
-        if(conn == null) {
+        if(connect == null) {
             System.out.println("No connection");return;
         }
 
         Statement stmt = null;
         try {
-            stmt = conn.createStatement();
+            stmt = connect.createStatement();
             stmt.executeUpdate(sql);
         } catch (SQLException e ) {
             System.out.println("Error in statement " + sql);
@@ -253,16 +256,16 @@ class MyDB {
     {
         ArrayList<String> res = new ArrayList<>();
 
-        if(conn == null)open();
+        if(connect == null)open();
 
-        if(conn == null) {
+        if(connect == null) {
             System.out.println("No connection");return res;
         }
 
         Statement stmt = null;
 
         try {
-            stmt = conn.createStatement();
+            stmt = connect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 String name = rs.getString(fld);
