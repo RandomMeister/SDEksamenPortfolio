@@ -35,6 +35,14 @@ public class Main extends Application{
 
     Button button2 = new Button("Find room");
 
+    void setArea(String s) {
+        area.setText(s);
+    }
+
+    void clearField() {
+        textField.setText("");
+    }
+
 
 
     public void start(Stage stage) {
@@ -69,18 +77,62 @@ public class Main extends Application{
 
 
 
+class Controller {
+
+    Instruction instruct;
+
+    Main view;
+
+    Controller(Instruction instruct, Main view) {
+        this.instruct = instruct; this.view = view;
+    }
+
+    void initArea() {
+        String toArea = ""; //Y U EMPTY
+        for(String t:instruct.get()) toArea += t + "\n";
+        view.setArea(toArea);
+    }
+
+    void enterText(String s) {
+        instruct.add(s);
+        view.clearField();
+        String toArea = "";
+        for(String t:instruct.get()) toArea += t + "\n";
+        view.setArea(toArea);
+    }
+
+    void addLecturer(String s) {
+        if(instruct.hasLecturer(s)) {
+            view.setArea("That Lecturer is already on the list " + s);
+        } else {
+            instruct.addLecturer(s);
+            view.lecturer.getItems().add(s);
+        }
+    }
+
+    void findRoom(String c) {
+        String room = instruct.findRoom(c);
+        if(room.equals("")) view.setArea ("No Room");
+        else view.setArea("Room: " + room);
+    }
+}
+
+
+
 class Instruction {
 
-    //OP TIL AT BLIVE FJERNET HVIS DEN IKKE ER NØDVENDIG!
-    //Database db = new Database();
+    Database db = new Database();
 
     Instruction() { }
+
+    ArrayList<String> get() {
+        return db.query("select field(2) from list(1) order by field(1);","field(2)");
+    }
+
 }
 
 
 class Database {
-
-    Database db = new Database();
 
     Connection connect = null;
 
