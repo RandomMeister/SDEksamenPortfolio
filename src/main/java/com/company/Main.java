@@ -13,11 +13,11 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Main {
+public class Main extends Application{
 
     private final Instruction instruct = new Instruction();
 
-    public final Controller con = new Controller(instruct, this);
+    public final Controller cont = new Controller(instruct, this);
 
     private final TextField textField = new TextField();
 
@@ -39,23 +39,23 @@ public class Main {
 
     public void start(Stage stage) {
 
-        con.initArea();
+        cont.initArea();
 
-        textField.setOnAction(e -> con.enterText(textField.getText()));
+        textField.setOnAction(e -> cont.enterText(textField.getText()));
 
         VBox root = new VBox(courses, lecturer, rooms, timeslot, textField, button, button2, area);
 
-        lecturer.getItems().addAll(model.getLecturer());
+        lecturer.getItems().addAll(instruct.getLecturer());
 
-        courses.getItems().addAll(model.getCourses());
+        courses.getItems().addAll(instruct.getCourses());
 
-        rooms.getItems().addAll(model.getRoom());
+        rooms.getItems().addAll(instruct.getRoom());
 
-        timeslot.getItems().addAll(model.getTimeslot());
+        timeslot.getItems().addAll(instruct.getTimeslot());
 
-        button.setOnAction(e -> con.addLecturer(textField.getText()));
+        button.setOnAction(e -> cont.addLecturer(textField.getText()));
 
-        button2.setOnAction(e -> con.findRoom(courses.getValue()));
+        button2.setOnAction(e -> cont.findRoom(courses.getValue()));
 
         Scene scene = new Scene(root, 800, 600);
 
