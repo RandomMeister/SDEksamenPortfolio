@@ -5,7 +5,7 @@ module com.example.sdeksamenportfolio {
 
 
     opens com.example.sdeksamenportfolio to javafx.fxml;
-    exports com.example.sdeksamenportfolio;
+    //exports com.example.sdeksamenportfolio;
     exports com.company;
     opens com.company to javafx.fxml;
 }

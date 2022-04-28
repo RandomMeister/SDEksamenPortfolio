@@ -7,8 +7,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.util.*;
 
-//TEST
-//Endnu en test
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -206,12 +205,17 @@ class MyDB {
 
     public void open() {
         try {
-            String url = "jdbc:sqlite:listdb.db";
+            //String url = "jdbc:sqlite:listdb.db";
+            String url = "jdbc:sqlite:tcmdb.db";
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
             System.out.println("cannot open");
             if (conn != null) close();
         }
+
+        //Vi tjekker lige om den forbinder til vores program, vores TCMDB
+        System.out.println("Connected to Database");
+
     }
 
     public void close() {
