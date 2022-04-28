@@ -1,28 +1,29 @@
 package com.company;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.application.Application; //Tilføjer lecturer,corses, timesloth osv.
+import javafx.scene.Scene; //Skaber selve vinduet
+import javafx.scene.control.*; //til nodes
+import javafx.scene.layout.VBox; //Holer styr på vores "childrens"
 import javafx.stage.Stage;
-import java.util.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Main extends Application{
 
-    private final Instruction instruct = new Instruction();
+    private final Instruction instruct = new Instruction(); //kan ikke ændres pga final, kan ikke tilgås fra andre classes pga private
 
-    public final Controller cont = new Controller(instruct, this);
+    public final Controller cont = new Controller(instruct, this); //
 
     private final TextField textField = new TextField();
 
     private final TextArea area = new TextArea();
 
+    //Tilføjer vores pull down lister
     ComboBox<String> lecturer = new ComboBox<>();
 
     ComboBox<String> courses = new ComboBox<>();
@@ -31,6 +32,7 @@ public class Main extends Application{
 
     ComboBox<String> timeslot = new ComboBox<>();
 
+    //laver vores knapper, som senere bliver tillagt en bestemt combobox
     Button button = new Button("Add lecturer");
 
     Button button2 = new Button("Find room");
@@ -51,8 +53,10 @@ public class Main extends Application{
 
         textField.setOnAction(e -> cont.enterText(textField.getText()));
 
+        //VBox root er her vi samler alle "children"
         VBox root = new VBox(courses, lecturer, rooms, timeslot, textField, button, button2, area);
 
+        //
         lecturer.getItems().addAll(instruct.getLecturer());
 
         courses.getItems().addAll(instruct.getCourses());
@@ -65,9 +69,10 @@ public class Main extends Application{
 
         button2.setOnAction(e -> cont.findRoom(courses.getValue()));
 
+        //Vi laver vores vindue
         Scene scene = new Scene(root, 800, 600);
 
-        stage.setTitle("JavaFX");
+        stage.setTitle("Find a course");
 
         stage.setScene(scene);
 
@@ -101,7 +106,7 @@ class Controller {
         view.setArea(toArea);
     }
 
-    void addLecturer(String s) {
+    void addLecturer(String s) { //Sørger for at hvis en lecturer allerede er tilføjet, kan han/hun ikke tilføjes igen
         if(instruct.hasLecturer(s)) {
             view.setArea("That Lecturer is already on the list " + s);
         } else {
