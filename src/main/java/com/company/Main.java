@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.util.*;
 
 //TEST
+//Endnu en test
 
 import java.sql.Connection;
 import java.sql.DriverManager;
