@@ -138,11 +138,6 @@ class Instruction {
 
     Instruction() { }
 
-    ArrayList<String> get() {
-        return db.query("select field(2) from list(1) order by field(1);","field(2)");
-    }
-
-
     //!!!
     //HERFRA AF ER DET UKENDT KODE!!!
     //!!
@@ -196,8 +191,8 @@ class Instruction {
         db.cmd("insert into lst1 (fld2) values ('" + s + "');");
     }
 
-     ArrayList<String> get() {
-        return db.query("select fld2 from lst1 order by fld1;","fld2");
+    ArrayList<String> get() {
+        return db.query("select field(2) from list(1) order by field(1);","field(2)");
     }
 }
 
