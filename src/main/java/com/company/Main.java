@@ -100,6 +100,7 @@ public class Main extends Application {
         sf.setPromptText("Enter capacity of Students in Room");
 
         VBox root = new VBox(courses, lecturer, rooms, timeslot, tf, sf, button, button1, button2, button3, area);
+        root.setSpacing(10);
 
         lecturer.getItems().addAll(instruct.getLecturer());
         lecturer.setPromptText("Lecturer");
