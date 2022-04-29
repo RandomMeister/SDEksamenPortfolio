@@ -3,6 +3,7 @@ package com.company;
 import javafx.application.Application; //Tilføjer lecturer,corses, timesloth osv.
 import javafx.scene.Scene; //Skaber selve vinduet
 import javafx.scene.control.*; //til nodes
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox; //Holer styr på vores "childrens"
 import javafx.stage.Stage;
 
@@ -23,19 +24,34 @@ public class Main extends Application {
 
     private final TextArea area = new TextArea();
 
+
+
     //Tilføjer vores pull down lister
-    ComboBox<String> lecturer = new ComboBox<>();
+    //ComboBox<String> lecturer = new ComboBox<>();
 
-    ComboBox<String> courses = new ComboBox<>();
+    //ComboBox<String> courses = new ComboBox<>();
 
-    ComboBox<String> rooms = new ComboBox<>();
+    //ComboBox<String> rooms = new ComboBox<>();
 
-    ComboBox<String> timeslot = new ComboBox<>();
+    //ComboBox<String> timeslot = new ComboBox<>();
 
-    //laver vores knapper, som senere bliver tillagt en bestemt combobox
+
+
+    //Vores samling af buttons hvor vi laver vores knapper
     Button button = new Button("Add lecturer");
 
     Button button2 = new Button("Find room");
+
+    //Button button3 = new Button ("Test Button");
+
+
+
+    //Vores samling af Labels
+    //Label course = new Label("Courses");
+
+    //Label teach = new Label("Lecturer");
+
+
 
     void setArea(String s) {
         area.setText(s);
@@ -51,29 +67,43 @@ public class Main extends Application {
 
     public void start(Stage stage) {
 
+        //VBox root er her vi samler alle "children"
+        VBox root = new VBox(textField, button, button2, area);
+        //Unused children: button3, courses, lecturer, rooms, timeslot, course, teach
+
+        //GridPane Rows = new GridPane();
+
+        //Rows.addRow(0, null, null);
+        //Rows.addRow(1, null, null);
+
+
         cont.initArea();
 
         textField.setOnAction(e -> cont.enterText(textField.getText()));
 
-        //VBox root er her vi samler alle "children"
-        VBox root = new VBox(courses, lecturer, rooms, timeslot, textField, button, button2, area);
+        //lecturer.getItems().addAll(instruct.getLecturer());
 
-        lecturer.getItems().addAll(instruct.getLecturer());
+        //courses.getItems().addAll(instruct.getCourses());
 
-        courses.getItems().addAll(instruct.getCourses());
+        //rooms.getItems().addAll(instruct.getRoom());
 
-        rooms.getItems().addAll(instruct.getRoom());
+        //timeslot.getItems().addAll(instruct.getTimeslot());
 
-        timeslot.getItems().addAll(instruct.getTimeslot());
+        //button.setOnAction(e -> cont.addLecturer(textField.getText()));
 
-        button.setOnAction(e -> cont.addLecturer(textField.getText()));
+        //button2.setOnAction(e -> cont.findRoom(courses.getValue()));
 
-        button2.setOnAction(e -> cont.findRoom(courses.getValue()));
+
+
+
+
+
+
 
         //Vi laver vores vindue
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1000, 800);
 
-        stage.setTitle("Find a course");
+        stage.setTitle("Course Management System");
 
         stage.setScene(scene);
 
@@ -90,6 +120,9 @@ public class Main extends Application {
     //Wtffffffff ^^^^^^^^
     //!!
 }
+
+
+
 
 
 
@@ -117,14 +150,16 @@ class Controller {
         view.setArea(toArea);
     }
 
-    void addLecturer(String s) { //Sørger for at hvis en lecturer allerede er tilføjet, kan han/hun ikke tilføjes igen
+    //Sørger for at hvis en lecturer allerede er tilføjet, kan han/hun ikke tilføjes igen
+    //Ellers indsættes den lecturer som brugeren har skrevet ind
+    /*void addLecturer(String s) {
         if(instruct.hasLecturer(s)) {
             view.setArea("That Lecturer is already on the list " + s);
         } else {
             instruct.addLecturer(s);
             view.lecturer.getItems().add(s);
         }
-    }
+    }*/
 
     void findRoom(String c) {
         String room = instruct.findRoom(c);
@@ -144,6 +179,7 @@ class Instruction {
     //!!!
     //HERFRA AF ER DET UKENDT KODE!!!
     //!!
+    /*
     void addLecturer(String s) {
         db.cmd("insert into Lecturer (name) values ('" + s + "');");
     }
@@ -170,9 +206,11 @@ class Instruction {
         db.cmd("insert into Courses (name,stud) values ('" + s + "'," + stud + ");");
     }
 
+
     ArrayList<String> getCourses() {
         return db.query("select name from Courses;","name");
     }
+     */
 
     String findRoom(String c) {
         ArrayList <String> lst = db.query
@@ -182,6 +220,7 @@ class Instruction {
         else return lst.get(0);
     }
 
+    /*
     void addTimeslot(String s) { // remember to sanitize your data!
         db.cmd("insert into Timeslot (name) values ('" + s + "');");
     }
@@ -189,6 +228,7 @@ class Instruction {
     ArrayList<String> getTimeslot() {
         return db.query("select name from Timeslot;","name");
     }
+     */
 
     void add(String s) { // remember to sanitize your data!
         db.cmd("insert into lst1 (fld2) values ('" + s + "');");
