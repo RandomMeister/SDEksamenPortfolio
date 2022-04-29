@@ -252,6 +252,22 @@ class Instruction {
 
         for(String day:days){addTimeslot(day+" AM");addTimeslot(day+" PM");}
 
+
+
+        db.cmd("drop table if exists lst1;");
+        db.cmd("create table if not exists lst1 " + "(fld1 integer primary key autoincrement, fld2 text);");
+
+        db.cmd("drop table if exists Courses;");
+        db.cmd("create table if not exists Courses " + "(ID text, stud integer);");
+
+        db.cmd("drop table if exists Rooms;");
+        db.cmd("create table if not exists Rooms " + "(ID text, stud integer);");
+
+        db.cmd("drop table if exists Timeslot;");
+        db.cmd("create table if not exists Timeslot " + "(ID text);");
+
+        db.cmd("drop table if exists Lecturer;");
+        db.cmd("create table if not exists Lecturer " + "(ID text);");
     }
 
 
@@ -270,10 +286,9 @@ class Instruction {
         return lst.size() > 0;
     }
 
-    void addRoom(String s, String stud) {
+    void addRoom(String s,String stud) {
         db.cmd("insert into Rooms (ID,stud) values ('" + s + "'," + stud + ");");
     }
-
     ArrayList<String> getRoom() {
         return db.query("select ID from Rooms;","ID");
     }
@@ -307,24 +322,26 @@ class Instruction {
         else return lst.get(0);
     }
 
-
     void addTimeslot(String s) {
         db.cmd("insert into Timeslot (ID) values ('" + s + "');");
     }
 
-    ArrayList<String> getTimeslot(){
+    ArrayList<String> getTimeslot() {
         return db.query("select ID from Timeslot;","ID");
     }
 
     void add(String s) {
-        db.cmd("insert into list(1) (field(2)) values ('" + s + "');");
+        db.cmd("insert into list1 (field2) values ('" + s + "');");
     }
 
+    //!!!
+    //Vi skal lige finde ud af hvad fanden der forgår her
+    //!!!
     ArrayList<String> get() {
-        return db.query("select field(2) from list(1) order by field(1);","field(2)");
+        return db.query("select field2 from list1 order by field1;","field2");
     }
-}
 
+}
 
 
 
@@ -358,22 +375,40 @@ class Database {
         connect = null;
     }
 
-    /*
-    public void check() {
-        if (connect != null) {
-            //Vi tjekker lige om den forbinder til vores program, vores TCMDB
-            System.out.println("Connected to Database");
-            System.out.println("");
+    public void cmd(String sql) {
+
+        if (connect == null) open();
+
+        if (connect == null) {
+            System.out.println("No connection");
+            return;
         }
-    }*/
+
+        Statement stmt = null;
+        try {
+            stmt = connect.createStatement();
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            System.out.println("Error in statement " + sql);
+        }
+
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in statement " + sql);
+        }
+    }
 
     public ArrayList<String> query(String query, String field) {
         ArrayList<String> res = new ArrayList<>();
 
-        if(connect == null)open();
+        if (connect == null) open();
 
-        if(connect == null) {
-            System.out.println("No connection");return res;
+        if (connect == null) {
+            System.out.println("No connection");
+            return res;
         }
 
         Statement stmt = null;
@@ -382,40 +417,19 @@ class Database {
             stmt = connect.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                String name = rs.getString(field);
-                res.add(name);
+                String ID = rs.getString(field);
+                res.add(ID);
             }
-        } catch (SQLException e ) {
+        } catch (SQLException e) {
             System.out.println("Error in statement " + query + " " + field);
         }
         try {
-            if (stmt != null) { stmt.close(); }
-        } catch (SQLException e ) {
+            if (stmt != null) {
+                stmt.close();
+            }
+        } catch (SQLException e) {
             System.out.println("Error in statement " + query + " " + field);
         }
         return res;
-    }
-
-    public void cmd(String sql) {
-
-        if(connect == null)open();
-
-        if(connect == null) {
-            System.out.println("No connection");return;
-        }
-
-        Statement stmt = null;
-        try {
-            stmt = connect.createStatement();
-            stmt.executeUpdate(sql);
-        } catch (SQLException e ) {
-            System.out.println("Error in statement " + sql);
-        }
-
-        try {
-            if (stmt != null) { stmt.close(); }
-        } catch (SQLException e ) {
-            System.out.println("Error in statement " + sql);
-        }
     }
 }
