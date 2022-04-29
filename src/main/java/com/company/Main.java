@@ -6,7 +6,7 @@ import javafx.scene.Scene; //Skaber selve vinduet
 import javafx.scene.control.*; //til nodes
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox; //Holer styr på vores "childrens"
+import javafx.scene.layout.VBox; //Holder styr på vores "childrens"
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -24,56 +24,13 @@ public class Main extends Application {
 
     public final Controller cont = new Controller(instruct, this); //
 
-    //private final TextField textField = new TextField();
-
-    //private final TextArea area = new TextArea();
 
 
-
-    //Tilføjer vores pull down lister
-    //ComboBox<String> lecturer = new ComboBox<>();
-
-    //ComboBox<String> courses = new ComboBox<>();
-
-    //ComboBox<String> rooms = new ComboBox<>();
-
-    //ComboBox<String> timeslot = new ComboBox<>();
-
-
-
-    //Vores samling af buttons hvor vi laver vores knapper
-    //Button button = new Button("Add lecturer");
-
-    //Button button2 = new Button("Find room");
-
-    //Button button3 = new Button ("Test Button");
-
-
-
-    //Vores samling af Labels
-    //Label course = new Label("Courses");
-
-    //Label teach = new Label("Lecturer");
-
-
-
-    String courses[] = {
-            "Essential Computing", "Interactive Digital Design", "Software Development"
-    };
+    String courses[] = { "Essential Computing", "Interactive Digital Design", "Software Development" };
 
     ComboBox combobox = new ComboBox(FXCollections.observableArrayList(courses));
 
     TilePane tilepane = new TilePane(combobox);
-
-
-
-    //void setArea(String s) {
-        //area.setText(s);
-    //}
-
-    //void clearField() {
-        //textField.setText("");
-    //}
 
     @Override
 
@@ -85,39 +42,6 @@ public class Main extends Application {
         VBox root = new VBox(tilepane);
 
         //Unused children: button3, courses, lecturer, rooms, timeslot, course, teach, button, button2, textField, area
-
-        //GridPane Rows = new GridPane();
-
-        //Rows.addRow(0, null, null);
-        //Rows.addRow(1, null, null);
-
-
-
-        /*String courses[] = {
-                "Essential Computing", "Interactive Digital Design", "Software Development"
-        };
-
-        ComboBox combobox = new ComboBox(FXCollections.observableArrayList(courses))
-
-        TilePane tilepane = new TilePane(combobox);*/
-
-
-
-        //cont.initArea();
-
-        //textField.setOnAction(e -> cont.enterText(textField.getText()));
-
-        //lecturer.getItems().addAll(instruct.getLecturer());
-
-        //courses.getItems().addAll(instruct.getCourses());
-
-        //rooms.getItems().addAll(instruct.getRoom());
-
-        //timeslot.getItems().addAll(instruct.getTimeslot());
-
-        //button.setOnAction(e -> cont.addLecturer(textField.getText()));
-
-        //button2.setOnAction(e -> cont.findRoom(courses.getValue()));
 
 
 
@@ -144,9 +68,6 @@ public class Main extends Application {
 
 
 
-
-
-
 class Controller {
 
     Instruction instruct;
@@ -156,39 +77,6 @@ class Controller {
     Controller(Instruction instruct, Main view) {
         this.instruct = instruct; this.view = view;
     }
-
-    /*
-    void initArea() {
-        String toArea = ""; //Y U EMPTY
-        for(String t:instruct.get()) toArea += t + "\n";
-        view.setArea(toArea);
-    }
-
-    void enterText(String s) {
-        instruct.add(s);
-        view.clearField();
-        String toArea = "";
-        for(String t:instruct.get()) toArea += t + "\n";
-        view.setArea(toArea);
-    }
-
-    //Sørger for at hvis en lecturer allerede er tilføjet, kan han/hun ikke tilføjes igen
-    //Ellers indsættes den lecturer som brugeren har skrevet ind
-    void addLecturer(String s) {
-        if(instruct.hasLecturer(s)) {
-            view.setArea("That Lecturer is already on the list " + s);
-        } else {
-            instruct.addLecturer(s);
-            view.lecturer.getItems().add(s);
-        }
-    }
-
-    void findRoom(String c) {
-        String room = instruct.findRoom(c);
-        if(room.equals("")) view.setArea ("No Room");
-        else view.setArea("Room: " + room);
-    }
-    */
 }
 
 
@@ -199,73 +87,11 @@ class Instruction {
 
     Instruction() { }
 
-    //!!!
-    //HERFRA AF ER DET UKENDT KODE!!!
-    //!!
-    /*
-    void addLecturer(String s) {
-        db.cmd("insert into Lecturer (name) values ('" + s + "');");
-    }
-
-    ArrayList<String> getLecturer() {
-        return db.query("select name from Lecturer;","name");
-    }
-
-    boolean hasLecturer(String s) {
-        ArrayList <String> lst = db.query("select name from Lecturer where name = '" + s + "';","name");
-        System.out.println(lst);
-        return lst.size() > 0;
-    }
-
-    void addRoom(String s, String stud) {
-        db.cmd("insert into Rooms (name,stud) values ('" + s + "'," + stud + ");");
-    }
-
-    ArrayList<String> getRoom() {
-        return db.query("select name from Rooms;","name");
-    }
-
-    void addCourses(String s,String stud) {
-        db.cmd("insert into Courses (name,stud) values ('" + s + "'," + stud + ");");
-    }
-
-
-    ArrayList<String> getCourses() {
-        return db.query("select name from Courses;","name");
-    }
-
-
-    String findRoom(String c) {
-        ArrayList <String> lst = db.query
-                ("select Rooms.name from Rooms inner join Courses" + " where Courses.name = '" + c + "' and Rooms.stud > Courses.stud;","name");
-        System.out.println(lst);
-        if(lst.size() == 0) return "";
-        else return lst.get(0);
-    }
-
-
-    void addTimeslot(String s) { // remember to sanitize your data!
-        db.cmd("insert into Timeslot (name) values ('" + s + "');");
-    }
-
-    ArrayList<String> getTimeslot() {
-        return db.query("select name from Timeslot;","name");
-    }
-
-
-    void add(String s) { // remember to sanitize your data!
-        db.cmd("insert into lst1 (fld2) values ('" + s + "');");
-    }
-     */
-
     ArrayList<String> get() {
         return db.query("select field(2) from list(1) order by field(1);","field(2)");
     }
-
 }
-//!!!
-//OPAF AF ER DET UKENDT KODE!!!
-//!!
+
 
 
 
