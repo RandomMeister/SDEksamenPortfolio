@@ -18,12 +18,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
-
-
-
-
-
 public class Main extends Application {
 
     private final Instruction instruct = new Instruction(); //kan ikke ændres pga final, kan ikke tilgås fra andre classes pga private
@@ -31,16 +25,16 @@ public class Main extends Application {
     public final Controller cont = new Controller(instruct, this); //
 
 
-
     // Launch the application
     public void start(Stage stage)
     {
         // Set title for the stage
-        stage.setTitle("creating combo box ");
+        stage.setTitle("Course Management System");
 
-        String courses[] = { "Essential Computing", "Interactive Digital Design", "Software Development" };
+        String courses[] = {"Essential Computing", "Interactive Digital Design", "Software Development" };
 
         ComboBox combobox = new ComboBox(FXCollections.observableArrayList(courses));
+        combobox.setPromptText("Courses Selection");
 
         // Label to display the selected menu
         Label selected = new Label("default course selected");
@@ -57,14 +51,48 @@ public class Main extends Application {
         // Set on action
         combobox.setOnAction(event);
 
+
+        //Lecturer placeholder
+        Label teach = new Label("Lecturer");
+
+        TextField tf1 = new TextField();
+
+
+
+        //Lecturer placeholder
+        Label room = new Label("Room");
+
+        TextField tf2 = new TextField();
+
+
+
+        //Lecturer placeholder
+        Label time = new Label("Time");
+
+        TextField tf3 = new TextField();
+
+
+
         // Create a tile pane
-        TilePane tile_pane = new TilePane(combobox, selected);
+        GridPane gridpane = new GridPane();
+
+        gridpane.addRow(0, combobox, selected);
+        gridpane.addRow(1, teach, tf1);
+        gridpane.addRow(2, room, tf2);
+        gridpane.addRow(3, time, tf3);
+
+
+
 
         // Create a scene
-        Scene scene = new Scene(tile_pane, 1000, 800);
+        Scene scene = new Scene(gridpane, 1000, 800);
 
         // Set the scene
         stage.setScene(scene);
+
+        //This shit no work
+        //gridpane.setHgap(2);
+        //gridpane.setVgap(2);
 
         stage.show();
     }
@@ -73,8 +101,25 @@ public class Main extends Application {
     {
         // Launch the application
         launch(args);
+
+        //EssentialComputing datalogi = new EssentialComputing("sVÆRT FAG", "mads og line", 2.55);
     }
 }
+
+
+/*
+class EssentialComputing {
+
+    EssentialComputing (String CourseInfo, String Lecturer, double Room) {
+
+       String course = CourseInfo;
+       String lecturer = Lecturer;
+       Double roomsnr = Room;
+
+    }
+
+}
+ */
 
 
 
