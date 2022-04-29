@@ -1,9 +1,11 @@
 package com.company;
 
-import javafx.application.Application; //Tilføjer lecturer,corses, timesloth osv.
+//Ubrugte Imports PT
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
+import javafx.application.Application; //Tilføjer lecturer,corses, timesloth osv.
 import javafx.scene.Scene; //Skaber selve vinduet
 import javafx.scene.control.*; //til nodes
 import javafx.scene.layout.VBox; //Holder styr på vores "childrens"
@@ -15,6 +17,8 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+
 
 public class Main extends Application {
 
@@ -41,6 +45,8 @@ public class Main extends Application {
     void setArea(String s){area.setText(s);}
     void clearField(){tf.setText("");}
     @Override
+
+
 
     // Launch the application
     public void start(Stage stage)
@@ -218,11 +224,42 @@ class Instruction {
 
     Database db = new Database();
 
-    Instruction() { }
+    Instruction() {
+
+        addCourses("Essential Computing","60");
+
+        addCourses("Interactive Digitial Systems","50");
+
+        addCourses("Software Development","40");
+
+
+
+        addRoom("Auditory 1","150");
+
+        addRoom("Small Auditory 2","80");
+
+        addRoom("Room 8","40");
+
+
+
+        addLecturer("Torben");
+
+        addLecturer("Bente");
+
+        addLecturer("Henning");
+
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+
+        for(String day:days){addTimeslot(day+" AM");addTimeslot(day+" PM");}
+
+    }
+
+
 
     void addLecturer(String s) {
         db.cmd("insert into Lecturer (ID) values ('" + s + "');");
     }
+
     ArrayList<String> getLecturer() {
         return db.query("select ID from Lecturer;","ID");
     }
@@ -270,11 +307,10 @@ class Instruction {
         else return lst.get(0);
     }
 
-    /*
+
     void addTimeslot(String s) {
-        db.cmd("insert into Timeslot (ID) values ('"+s+"');");
+        db.cmd("insert into Timeslot (ID) values ('" + s + "');");
     }
-    */
 
     ArrayList<String> getTimeslot(){
         return db.query("select ID from Timeslot;","ID");
@@ -287,8 +323,6 @@ class Instruction {
     ArrayList<String> get() {
         return db.query("select field(2) from list(1) order by field(1);","field(2)");
     }
-
-
 }
 
 
@@ -300,22 +334,19 @@ class Database {
 
     Database() {
         if (connect == null) open();
+        //check();
     }
 
     public void open() {
         try {
-            //String url = "jdbc:sqlite:listdb.db";
-            String url = "jdbc:sqlite:tcmdb.db";
+            //Kan pt ikke forbinde til database, og det er ikke klart hvorfor ikke
+            String url = "jdbc:sqlite:listdb.db";
             connect = DriverManager.getConnection(url);
+
         } catch (SQLException e) {
             System.out.println("cannot open");
             if (connect != null) close();
         }
-
-        //Vi tjekker lige om den forbinder til vores program, vores TCMDB
-        System.out.println("Connected to Database");
-        System.out.println("");
-
     }
 
     public void close() {
@@ -326,6 +357,15 @@ class Database {
         }
         connect = null;
     }
+
+    /*
+    public void check() {
+        if (connect != null) {
+            //Vi tjekker lige om den forbinder til vores program, vores TCMDB
+            System.out.println("Connected to Database");
+            System.out.println("");
+        }
+    }*/
 
     public ArrayList<String> query(String query, String field) {
         ArrayList<String> res = new ArrayList<>();
@@ -356,11 +396,6 @@ class Database {
         return res;
     }
 
-
-
-    //!!!
-    //HERFRA AF ER DET UKENDT KODE!!!
-    //!!
     public void cmd(String sql) {
 
         if(connect == null)open();
@@ -383,7 +418,4 @@ class Database {
             System.out.println("Error in statement " + sql);
         }
     }
-//!!!
-//OPAF AF ER DET UKENDT KODE!!!
-//!!
 }
