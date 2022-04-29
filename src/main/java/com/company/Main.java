@@ -2,6 +2,8 @@ package com.company;
 
 import javafx.application.Application; //Tilføjer lecturer,corses, timesloth osv.
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene; //Skaber selve vinduet
 import javafx.scene.control.*; //til nodes
 import javafx.scene.layout.GridPane;
@@ -18,6 +20,10 @@ import java.util.ArrayList;
 
 
 
+
+
+
+
 public class Main extends Application {
 
     private final Instruction instruct = new Instruction(); //kan ikke ændres pga final, kan ikke tilgås fra andre classes pga private
@@ -26,44 +32,48 @@ public class Main extends Application {
 
 
 
-    String courses[] = { "Essential Computing", "Interactive Digital Design", "Software Development" };
+    // Launch the application
+    public void start(Stage stage)
+    {
+        // Set title for the stage
+        stage.setTitle("creating combo box ");
 
-    ComboBox combobox = new ComboBox(FXCollections.observableArrayList(courses));
+        String courses[] = { "Essential Computing", "Interactive Digital Design", "Software Development" };
 
-    TilePane tilepane = new TilePane(combobox);
+        ComboBox combobox = new ComboBox(FXCollections.observableArrayList(courses));
 
-    @Override
+        // Label to display the selected menu
+        Label selected = new Label("default course selected");
 
+        // Create action event
+        // Hvorfor nederstående er halt grået ud ved jeg ikke
+        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e)
+                    {
+                        selected.setText(combobox.getValue() + " selected");
+                    }
+                };
 
+        // Set on action
+        combobox.setOnAction(event);
 
-    public void start(Stage stage) {
+        // Create a tile pane
+        TilePane tile_pane = new TilePane(combobox, selected);
 
-        //VBox root er her vi samler alle "children"
-        VBox root = new VBox(tilepane);
+        // Create a scene
+        Scene scene = new Scene(tile_pane, 1000, 800);
 
-        //Unused children: button3, courses, lecturer, rooms, timeslot, course, teach, button, button2, textField, area
-
-
-
-        //Vi laver vores vindue
-        Scene scene = new Scene(root, 1000, 800);
-
-        stage.setTitle("Course Management System");
-
+        // Set the scene
         stage.setScene(scene);
 
         stage.show();
     }
 
-    //!!!
-    //HVAD FUCK ER DEN HER TIL FOR!?
-    //!!!
-    public static void main(String[] args) {
+    public static void main(String args[])
+    {
+        // Launch the application
         launch(args);
     }
-    //!!!
-    //Wtffffffff ^^^^^^^^
-    //!!
 }
 
 
