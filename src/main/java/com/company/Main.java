@@ -1,11 +1,6 @@
 package com.company;
 
-//Ubrugte Imports PT
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
-import javafx.application.Application; //Tilføjer lecturer,corses, timesloth osv.
+import javafx.application.Application; //Tilføjer lecturer,courses, timeslot osv.
 import javafx.scene.Scene; //Skaber selve vinduet
 import javafx.scene.control.*; //til nodes
 import javafx.scene.layout.VBox; //Holder styr på vores "childrens"
@@ -22,7 +17,7 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
-    private final Instruction instruct = new Instruction(); //kan ikke ændres pga final, kan ikke tilgås fra andre classes pga private
+    private final Instruction instruct = new Instruction();
 
     public final Controller cont = new Controller(instruct, this);
 
@@ -46,9 +41,6 @@ public class Main extends Application {
     void clearField(){tf.setText("");}
     @Override
 
-
-
-    // Launch the application
     public void start(Stage stage)
     {
         /*
@@ -99,12 +91,10 @@ public class Main extends Application {
         gridpane.addRow(3, time, tf3);
         */
 
-
-
         cont.initArea();
 
         tf.setOnAction(e -> cont.enterText(tf.getText()));
-        tf.setPromptText("Enter here either: Lecturer, Course or Room");
+        tf.setPromptText("Enter here either: Course, Lecturer or Room");
 
         sf.setOnAction(e -> cont.enterText(tf.getText()));
         sf.setPromptText("Enter capacity of Students in Room");
@@ -139,9 +129,7 @@ public class Main extends Application {
 
     public static void main(String[] args)
     {
-        // Launch the application
         launch(args);
-
     }
 }
 
@@ -334,13 +322,9 @@ class Instruction {
         db.cmd("insert into list1 (field2) values ('" + s + "');");
     }
 
-    //!!!
-    //Vi skal lige finde ud af hvad fanden der forgår her
-    //!!!
     ArrayList<String> get() {
-        return db.query("select field2 from list1 order by field1;","field2");
+        return db.query("select fld2 from lst1 order by fld1; ","fld2");
     }
-
 }
 
 
